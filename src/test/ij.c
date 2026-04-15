@@ -170,6 +170,8 @@ main( hypre_int argc,
    HYPRE_Real          b_dot_b;
    HYPRE_Real          final_res_norm;
    void               *object;
+   
+   HYPRE_Int	       exec_policy_threshold = 1000;
 
    HYPRE_IJMatrix      ij_A = NULL;
    HYPRE_IJMatrix      ij_M = NULL;
@@ -901,6 +903,11 @@ main( hypre_int argc,
          {
             solver_id = atoi(argv[arg_index++]);
          }
+      }
+      else if ( strcmp(argv[arg_index], "-exec_threshold") == 0 )
+      {
+         arg_index++;
+         exec_policy_threshold = atoi(argv[arg_index++]);
       }
       else if ( strcmp(argv[arg_index], "-rbm") == 0 )
       {
@@ -5376,6 +5383,7 @@ main( hypre_int argc,
             HYPRE_BoomerAMGSetInterpVecAbsQTrunc(pcg_precond, Q_trunc);
          }
          HYPRE_PCGSetMaxIter(pcg_solver, mg_max_iter);
+	 HYPRE_BoomerAMGSetExecPolicyThreshold(pcg_precond, exec_policy_threshold);
          HYPRE_PCGSetPreconditioner(pcg_solver, pcg_precond);
       }
       else if (solver_id == 2)

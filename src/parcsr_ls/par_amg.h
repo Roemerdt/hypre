@@ -65,6 +65,8 @@ typedef struct
    HYPRE_Int      redundant;
    HYPRE_Int      participate;
    HYPRE_Int      Sabs;
+   // Per-level execution policy threshold.
+   HYPRE_Int exec_policy_threshold;
 
    /* solve params */
    HYPRE_Int      max_iter;
@@ -339,6 +341,7 @@ typedef struct
 #define hypre_ParAMGDataMaxCoarseSize(amg_data)        ((amg_data) -> max_coarse_size)
 #define hypre_ParAMGDataMinCoarseSize(amg_data)        ((amg_data) -> min_coarse_size)
 #define hypre_ParAMGDataSeqThreshold(amg_data)         ((amg_data) -> seq_threshold)
+#define hypre_ParAMGDataExecPolicyThreshold(amg_data)  ((amg_data) -> exec_policy_threshold)
 
 /* solve params */
 

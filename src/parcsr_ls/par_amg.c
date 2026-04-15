@@ -562,6 +562,9 @@ hypre_BoomerAMGCreate( void )
    hypre_ParAMGDataDSLUSolver(amg_data) = NULL;
 #endif
 
+   /* Default: all levels on GPU */
+   hypre_ParAMGDataExecPolicyThreshold(amg_data) = 1000;
+
    HYPRE_ANNOTATE_FUNC_END;
 
    return (void *) amg_data;
@@ -923,6 +926,26 @@ hypre_BoomerAMGDestroy( void *data )
    }
    HYPRE_ANNOTATE_FUNC_END;
 
+   return hypre_error_flag;
+}
+
+HYPRE_Int
+HYPRE_BoomerAMGSetExecPolicyThreshold(HYPRE_Solver solver,
+                                       HYPRE_Int    threshold)
+{
+   hypre_ParAMGData *amg_data = (hypre_ParAMGData*) solver;
+   if (!amg_data) { hypre_error_in_arg(1); return hypre_error_flag; }
+   hypre_ParAMGDataExecPolicyThreshold(amg_data) = threshold;
+   return hypre_error_flag;
+}
+
+HYPRE_Int
+HYPRE_BoomerAMGGetExecPolicyThreshold(HYPRE_Solver solver,
+                                       HYPRE_Int   *threshold)
+{
+   hypre_ParAMGData *amg_data = (hypre_ParAMGData*) solver;
+   if (!amg_data) { hypre_error_in_arg(1); return hypre_error_flag; }
+   *threshold = hypre_ParAMGDataExecPolicyThreshold(amg_data);
    return hypre_error_flag;
 }
 

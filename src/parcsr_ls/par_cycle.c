@@ -285,6 +285,23 @@ hypre_BoomerAMGCycle( void              *amg_vdata,
    hypre_GpuProfilingPushRange(nvtx_name);
    while (Not_Finished)
    {
+
+      /*------------------------------------------------------------------
+      * Per-level execution policy switch.
+      * Fine levels (< threshold) run on GPU; coarse levels on CPU.
+      *-----------------------------------------------------------------*/
+     {
+        HYPRE_Int threshold = hypre_ParAMGDataExecPolicyThreshold(amg_data);
+        if (level >= threshold)
+        {
+           HYPRE_SetExecutionPolicy(HYPRE_EXEC_HOST);
+        }
+        else
+        {
+           HYPRE_SetExecutionPolicy(HYPRE_EXEC_DEVICE);
+        }
+     }	   
+
       if (num_levels > 1)
       {
          local_size = hypre_VectorSize(hypre_ParVectorLocalVector(F_array[level]));

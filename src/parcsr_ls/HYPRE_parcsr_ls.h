@@ -124,6 +124,15 @@ HYPRE_Int HYPRE_BoomerAMGSolveT(HYPRE_Solver       solver,
                                 HYPRE_ParVector    b,
                                 HYPRE_ParVector    x);
 
+
+
+HYPRE_Int HYPRE_BoomerAMGSetExecPolicyThreshold(HYPRE_Solver solver,
+                                                 HYPRE_Int    threshold);
+HYPRE_Int HYPRE_BoomerAMGGetExecPolicyThreshold(HYPRE_Solver solver,
+						 HYPRE_Int   *threshold);
+
+
+
 /**
  * Recovers old default for coarsening and interpolation, i.e Falgout
  * coarsening and untruncated modified classical interpolation.
